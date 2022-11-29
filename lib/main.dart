@@ -1,4 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:practo_hospital/main/mainScreen.dart';
 import 'package:practo_hospital/splash.dart';
 import 'package:firebase_core/firebase_core.dart';
 
@@ -30,7 +32,9 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: Splash(),
+      home: FirebaseAuth.instance.currentUser!.uid != null
+          ? MainScreen()
+          : Splash(),
     );
   }
 }

@@ -1,8 +1,12 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:practo_hospital/auth/signup.dart';
+import 'package:practo_hospital/database/firebasemethods.dart';
+import 'package:practo_hospital/main/mainScreen.dart';
+import 'package:practo_hospital/widgets/utils.dart';
 
 class MainAuth extends StatefulWidget {
   const MainAuth({super.key});
@@ -15,6 +19,14 @@ class _MainAuthState extends State<MainAuth> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passController = TextEditingController();
   bool _isLoading = false;
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    _emailController.clear();
+    _passController.clear();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -180,5 +192,24 @@ class _MainAuthState extends State<MainAuth> {
     );
   }
 
-  void login() {}
+  void login() async {
+    setState(() {
+      _isLoading = true;
+    });
+    String rse = await FirebaseMethods().loginUpUser(
+      email: _emailController.text,
+      pass: _passController.text,
+    );
+
+    print(rse);
+    setState(() {
+      _isLoading = false;
+    });
+    if (rse == 'sucess') {
+      Navigator.push(
+          context, MaterialPageRoute(builder: (builder) => MainScreen()));
+    } else {
+      showSnakBar(rse, context);
+    }
+  }
 }
