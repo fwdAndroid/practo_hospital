@@ -1,8 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:practo_hospital/auth/mainauth.dart';
+import 'package:practo_hospital/database/firebasemethods.dart';
+import 'package:practo_hospital/widgets/utils.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({super.key});
@@ -14,7 +17,18 @@ class SignUp extends StatefulWidget {
 class _SignUpState extends State<SignUp> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passController = TextEditingController();
+  final TextEditingController _addressController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
   bool _isLoading = false;
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    _emailController.clear();
+    _passController.clear();
+    _addressController.clear();
+    _nameController.clear();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,6 +43,61 @@ class _SignUpState extends State<SignUp> {
               height: 200,
             ),
           ),
+          SizedBox(
+            height: 10,
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: RichText(
+              text: TextSpan(
+                text: 'Enter Hospital Name',
+                style: GoogleFonts.getFont(
+                  'Montserrat',
+                  fontWeight: FontWeight.w500,
+                  color: Colors.black,
+                  fontSize: 16,
+                  fontStyle: FontStyle.normal,
+                ),
+                children: <TextSpan>[
+                  TextSpan(
+                      text: '*',
+                      style: GoogleFonts.getFont(
+                        'Montserrat',
+                        fontWeight: FontWeight.w500,
+                        color: Colors.red,
+                        fontSize: 12,
+                        fontStyle: FontStyle.normal,
+                      )),
+                ],
+              ),
+            ),
+          ),
+          Container(
+              margin: EdgeInsets.only(top: 5, left: 15, right: 15),
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: new BorderRadius.circular(30),
+                  border: Border.all(color: Color(0xffD2D2D2))),
+              child: TextFormField(
+                controller: _nameController,
+                validator: (v) {
+                  if (v!.isEmpty) {
+                    return "Enter Hospital Name.";
+                  }
+
+                  return null;
+                },
+                decoration: InputDecoration(
+                  hintText: 'Enter Hospital Name',
+                  contentPadding: EdgeInsets.only(left: 20),
+                  border: InputBorder.none,
+                  hintStyle: GoogleFonts.getFont('Montserrat',
+                      fontWeight: FontWeight.w600,
+                      color: Color(0xff8D8989),
+                      fontSize: 15,
+                      fontStyle: FontStyle.normal),
+                ),
+              )),
           SizedBox(
             height: 10,
           ),
@@ -120,7 +189,7 @@ class _SignUpState extends State<SignUp> {
                   borderRadius: new BorderRadius.circular(30),
                   border: Border.all(color: Color(0xffD2D2D2))),
               child: TextFormField(
-                controller: _passController,
+                controller: _addressController,
                 validator: (v) {
                   if (v!.isEmpty) {
                     return " Please Enter Address..\ ";
@@ -205,7 +274,7 @@ class _SignUpState extends State<SignUp> {
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(40)),
               ),
-              onPressed: login,
+              onPressed: signup,
               child: _isLoading == true
                   ? const Center(
                       child: CircularProgressIndicator.adaptive(),
@@ -235,5 +304,28 @@ class _SignUpState extends State<SignUp> {
     );
   }
 
-  void login() {}
+  void signup() async {
+    setState(() {
+      _isLoading = true;
+    });
+    String res = await FirebaseMethods().signUpUser(
+        name: _nameController.text,
+        email: _emailController.text,
+        pass: _passController.text,
+        address: _addressController.text);
+    print(res);
+    setState(() {
+      _isLoading = false;
+    });
+    if (res == 'success') {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (builder) => MainAuth(),
+        ),
+      );
+    } else {
+      showSnakBar(res, context);
+    }
+  }
 }
