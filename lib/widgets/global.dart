@@ -17,9 +17,9 @@ List<Widget> homeScreenItems = [
   Home(),
   HospitalAppointments(),
   ChatPage(
-    // doctorid: "",
-    // userid: "",
-    // name: "",
+    hospitald: "",
+    userid: "",
+    name: "",
   ),
   Setting(),
 

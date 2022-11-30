@@ -116,15 +116,17 @@ class _StatusAppointmentState extends State<StatusAppointment> {
                                                     Navigator.push(
                                                         context,
                                                         MaterialPageRoute(
-                                                            builder: (builder) => ChatPage(
-                                                                // doctorid:
-                                                                //     documentSnapshot[
-                                                                //         'doctorid'],
-                                                                // userid: documentSnapshot[
-                                                                //     'id'],
-                                                                // name: documentSnapshot[
-                                                                //     'name'],
-                                                                )));
+                                                            builder:
+                                                                (builder) =>
+                                                                    ChatPage(
+                                                                      hospitald:
+                                                                          documentSnapshot[
+                                                                              'hospitalid'],
+                                                                      userid: documentSnapshot[
+                                                                          'id'],
+                                                                      name: documentSnapshot[
+                                                                          'hospitalName'],
+                                                                    )));
                                                   });
                                                 },
                                                 icon: Icon(

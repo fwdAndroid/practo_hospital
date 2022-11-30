@@ -1,16 +1,25 @@
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter/material.dart';
+import 'package:practo_hospital/widgets/alll_chat_widget.dart';
 
-class ChatPage extends StatefulWidget {
-  const ChatPage({super.key});
+class ChatPage extends StatelessWidget {
+  final hospitald;
+  final userid;
+  final name;
 
-  @override
-  State<ChatPage> createState() => _ChatPageState();
-}
+  ChatPage({Key? key, required this.hospitald, required this.userid, required this.name})
+      : super(
+          key: key,
+        );
 
-class _ChatPageState extends State<ChatPage> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: AllChats(
+        hospitald: hospitald,
+        name: name,
+        userid: userid,
+      ),
+    );
   }
 }
