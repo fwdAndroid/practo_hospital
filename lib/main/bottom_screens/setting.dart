@@ -97,6 +97,7 @@ class _SettingState extends State<Setting> {
       body: Padding(
         padding: const EdgeInsets.all(10.0),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             // ListTle()
@@ -158,10 +159,8 @@ class _SettingState extends State<Setting> {
             ),
             zisttile('Logout', Icons.login_outlined, () async {
               await FirebaseAuth.instance.signOut().then((value) => {
-                    Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                            builder: (builder) => MainAuth()))
+                    Navigator.pushReplacement(context,
+                        MaterialPageRoute(builder: (builder) => MainAuth()))
                   });
             })
           ],

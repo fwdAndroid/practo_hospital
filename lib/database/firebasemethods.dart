@@ -5,6 +5,39 @@ import 'package:practo_hospital/models/hospital_model.dart';
 import 'package:uuid/uuid.dart';
 
 class FirebaseMethods {
+   Future<String> updateuser({
+    required String email,
+    required String pass,
+    required String address,
+    required String name,
+  }) async {
+    String res = 'Some error occured';
+    try {
+      if (email.isNotEmpty ||
+          pass.isNotEmpty ||
+          address.isNotEmpty ||
+          name.isNotEmpty) {
+        // UserCredential cred = await FirebaseAuth.instance
+        //     .createUserWithEmailAndPassword(email: email, password: pass);
+
+        //Add User to the database with modal
+        HospitalModel userModel = HospitalModel(
+            address: address,
+            uid: FirebaseAuth.instance.currentUser!.uid,
+            email: email,
+            name: name,
+            pass: pass);
+        await FirebaseFirestore.instance
+            .collection('hispitals')
+            .doc(FirebaseAuth.instance.currentUser!.uid)
+            .update(userModel.toJson());
+        res = 'sucess';
+      }
+    } catch (e) {
+      res = e.toString();
+    }
+    return res;
+  }
   //Register User with Add User
   Future<String> signUpUser({
     required String email,
