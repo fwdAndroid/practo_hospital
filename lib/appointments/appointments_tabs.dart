@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:practo_hospital/tab/past_appointment.dart';
-import 'package:practo_hospital/tab/status_appointment.dart';
-import 'package:practo_hospital/tab/upcomming_appointment.dart';
+import 'package:practo_doctor/tab/past_appointment.dart';
+import 'package:practo_doctor/tab/status_appointment.dart';
+import 'package:practo_doctor/tab/upcomming_appointment.dart';
 
-class HospitalAppointments extends StatefulWidget {
-  HospitalAppointments({super.key});
+class AppointmentsTabssTabs extends StatefulWidget {
+  AppointmentsTabssTabs({super.key});
 
   @override
-  State<HospitalAppointments> createState() => _HospitalAppointmentsState();
+  State<AppointmentsTabssTabs> createState() => _AppointmentsTabssTabsState();
 }
 
 /// AnimationControllers can be created with `vsync: this` because of TickerProviderStateMixin.
-class _HospitalAppointmentsState extends State<HospitalAppointments>
+class _AppointmentsTabssTabsState extends State<AppointmentsTabssTabs>
     with TickerProviderStateMixin {
   late TabController _tabController;
 
@@ -51,7 +51,13 @@ class _HospitalAppointmentsState extends State<HospitalAppointments>
       ),
       body: TabBarView(
         controller: _tabController,
-        children: <Widget>[StatusAppointment(), UpComing(), Past()],
+        children: <Widget>[
+          StatusAppointment(
+            
+          ),
+          UpComing(),
+          Past()
+        ],
       ),
     );
   }
