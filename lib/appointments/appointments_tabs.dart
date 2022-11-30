@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:practo_doctor/tab/past_appointment.dart';
-import 'package:practo_doctor/tab/status_appointment.dart';
-import 'package:practo_doctor/tab/upcomming_appointment.dart';
+import 'package:practo_hospital/tab/past_appointment.dart';
+import 'package:practo_hospital/tab/status_appointment.dart';
+import 'package:practo_hospital/tab/upcomming_appointment.dart';
+
 
 class AppointmentsTabssTabs extends StatefulWidget {
   AppointmentsTabssTabs({super.key});

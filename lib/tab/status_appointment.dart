@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:practo_hospital/details/view_detail.dart';
 // import 'package:practo_doctor/bottompages/chats/screens/chat_page.dart';
 // import 'package:practo_doctor/view_detail/view_detail.dart';
 import 'package:practo_hospital/main/bottom_screens/chat_page.dart';
@@ -75,26 +76,26 @@ class _StatusAppointmentState extends State<StatusAppointment> {
                                             Expanded(
                                               child: TextButton(
                                                   onPressed: () {
-                                                    // Navigator.push(
-                                                    //     context,
-                                                    //     MaterialPageRoute(
-                                                    //         builder:
-                                                    //             (builder) =>
-                                                    //                 View_Detial(
-                                                    //                   age: documentSnapshot[
-                                                    //                       'age'],
-                                                    //                   id: documentSnapshot[
-                                                    //                       'id'],
-                                                    //                   date: documentSnapshot[
-                                                    //                       'date'],
-                                                    //                   name: documentSnapshot[
-                                                    //                       'name'],
-                                                    //                   phone: documentSnapshot[
-                                                    //                       'phoneNumber'],
-                                                    //                   problem:
-                                                    //                       documentSnapshot[
-                                                    //                           'problem'],
-                                                    //                 )));
+                                                    Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                            builder:
+                                                                (builder) =>
+                                                                    View_Detial(
+                                                                      age: documentSnapshot[
+                                                                          'age'],
+                                                                      id: documentSnapshot[
+                                                                          'id'],
+                                                                      date: documentSnapshot[
+                                                                          'date'],
+                                                                      name: documentSnapshot[
+                                                                          'name'],
+                                                                      phone: documentSnapshot[
+                                                                          'phoneNumber'],
+                                                                      problem:
+                                                                          documentSnapshot[
+                                                                              'problem'],
+                                                                    )));
                                                   },
                                                   child: Text("View")),
                                             ),
