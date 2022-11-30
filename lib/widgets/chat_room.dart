@@ -1,9 +1,14 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:practo_hospital/widgets/app-theme.dart';
+import 'package:uuid/uuid.dart';
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 
 class ChatRoom extends StatefulWidget {
   String hospitalName;
@@ -23,8 +28,12 @@ class ChatRoom extends StatefulWidget {
 
 class _ChatRoomState extends State<ChatRoom> {
   String chatId = "";
+  String? imageLink;
   ScrollController scrollController = ScrollController();
   TextEditingController controller = TextEditingController();
+  final ImagePicker _picker = ImagePicker();
+  File? imageUrl;
+
   @override
   void initState() {
     // TODO: implement initState
@@ -220,7 +229,10 @@ class _ChatRoomState extends State<ChatRoom> {
                                   children: <Widget>[
                                     Padding(
                                         padding: const EdgeInsets.all(8.0),
-                                        child: Icon(Icons.attach_file)),
+                                        child: IconButton(
+                                          icon: Icon(Icons.attach_file),
+                                          onPressed: addImage,
+                                        )),
                                   ],
                                 ),
                                 enabledBorder: OutlineInputBorder(
@@ -295,5 +307,56 @@ class _ChatRoomState extends State<ChatRoom> {
     } else {
       // Fluttertoast.showToast(msg: 'Nothing to send');
     }
+  }
+
+  void addImage() async {
+    final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+    setState(() {
+      imageUrl = File(image!.path);
+    });
+    await uploadImageToFirebase().then((value) {
+      var documentReference = FirebaseFirestore.instance
+          .collection('messages')
+          .doc(chatId)
+          .collection(chatId)
+          .doc(DateTime.now().millisecondsSinceEpoch.toString());
+      FirebaseFirestore.instance.runTransaction((transaction) async {
+        await transaction.set(
+          documentReference,
+          {
+            "senderId": FirebaseAuth.instance.currentUser!.uid,
+            "receiverId": widget.userid,
+            // "content": messageController.text,
+            "time": DateTime.now(),
+            'image': imageLink,
+            'timestamp': DateTime.now().millisecondsSinceEpoch.toString(),
+            // 'content': content,
+            'type': 1
+          },
+        );
+      });
+    }).then((value) {
+      FocusScope.of(context).unfocus();
+      controller.clear();
+    });
+  }
+
+  Future uploadImageToFirebase() async {
+    File? fileName = imageUrl;
+    var uuid = Uuid();
+    firebase_storage.Reference firebaseStorageRef = firebase_storage
+        .FirebaseStorage.instance
+        .ref()
+        .child('messages/images+${uuid.v4()}');
+    firebase_storage.UploadTask uploadTask =
+        firebaseStorageRef.putFile(fileName!);
+    firebase_storage.TaskSnapshot taskSnapshot =
+        await uploadTask.whenComplete(() async {
+      print(fileName);
+      String img = await uploadTask.snapshot.ref.getDownloadURL();
+      setState(() {
+        imageLink = img;
+      });
+    });
   }
 }
