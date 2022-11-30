@@ -25,7 +25,7 @@ class _PastState extends State<Past> {
                     .doc("details")
                     .collection("records")
                   
-                    .where('doctorid',
+                    .where('hospitalid',
                         isEqualTo: FirebaseAuth.instance.currentUser!.uid)
                     .where("status", isEqualTo: "complete")
                     .snapshots(),

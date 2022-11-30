@@ -33,7 +33,7 @@ class _StatusAppointmentState extends State<StatusAppointment> {
                       'status',
                       isEqualTo: 'pending',
                     )
-                    .where('doctorid',
+                    .where('hospitalid',
                         isEqualTo: FirebaseAuth.instance.currentUser!.uid)
                     .snapshots(includeMetadataChanges: true),
                 builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -115,17 +115,15 @@ class _StatusAppointmentState extends State<StatusAppointment> {
                                                     Navigator.push(
                                                         context,
                                                         MaterialPageRoute(
-                                                            builder:
-                                                                (builder) =>
-                                                                    ChatPage(
-                                                                      // doctorid:
-                                                                      //     documentSnapshot[
-                                                                      //         'doctorid'],
-                                                                      // userid: documentSnapshot[
-                                                                      //     'id'],
-                                                                      // name: documentSnapshot[
-                                                                      //     'name'],
-                                                                    )));
+                                                            builder: (builder) => ChatPage(
+                                                                // doctorid:
+                                                                //     documentSnapshot[
+                                                                //         'doctorid'],
+                                                                // userid: documentSnapshot[
+                                                                //     'id'],
+                                                                // name: documentSnapshot[
+                                                                //     'name'],
+                                                                )));
                                                   });
                                                 },
                                                 icon: Icon(

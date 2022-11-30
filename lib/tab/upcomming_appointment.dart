@@ -26,7 +26,7 @@ class _UpComingState extends State<UpComing> {
                       'status',
                       isEqualTo: 'start',
                     )
-                    .where('doctorid',
+                    .where('hospitalid',
                         isEqualTo: FirebaseAuth.instance.currentUser!.uid)
                     .snapshots(includeMetadataChanges: true),
                 builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
