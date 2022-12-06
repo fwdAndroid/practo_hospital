@@ -7,7 +7,6 @@ class View_Detial extends StatefulWidget {
   String? id;
   final problem;
   final name;
-  final phone;
   final date;
   final age;
   View_Detial(
@@ -15,7 +14,6 @@ class View_Detial extends StatefulWidget {
       required this.date,
       required this.id,
       required this.name,
-      required this.phone,
       required this.problem,
       required this.age});
 
@@ -106,33 +104,7 @@ class _View_DetialState extends State<View_Detial> {
                           fontSize: 20),
                     ),
                   ),
-                  Divider(),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(4.0),
-                    child: Text(
-                      "Paitent Phone Number:",
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.w700,
-                          fontSize: 20),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(4.0),
-                    child: Text(
-                      widget.phone,
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 20),
-                    ),
-                  ),
+
                   Divider(),
                   SizedBox(
                     height: 10,
