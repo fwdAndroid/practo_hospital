@@ -1,7 +1,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.practo_hospital">
+    package="com.example.practo_hospital"
+    xmlns:tools="http://schemas.android.com/tools">
    <application
+        tools:replace="android:label"
         android:label="practo_hospital"
+        android:exported="true"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

@@ -7,6 +7,7 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:practo_hospital/widgets/app-theme.dart';
+import 'package:practo_hospital/widgets/videochat/meeting_screen.dart';
 import 'package:uuid/uuid.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 
@@ -86,19 +87,17 @@ class _ChatRoomState extends State<ChatRoom> {
         ),
         actions: [
           Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Icon(
-              Icons.video_call,
-              color: Colors.blue,
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Icon(
-              Icons.phone,
-              color: Colors.blue,
-            ),
-          ),
+              padding: const EdgeInsets.all(8.0),
+              child: IconButton(
+                onPressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (builder) => MeetingScreen()));
+                },
+                icon: Icon(
+                  Icons.video_call,
+                  color: Colors.blue,
+                ),
+              )),
         ],
       ),
       backgroundColor: MyTheme.kPrimaryColor,
