@@ -1,6 +1,4 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:practo_hospital/main/mainScreen.dart';
@@ -13,6 +11,8 @@ Future<void> main() async {
     MyApp(),
   );
 }
+
+// namecontroller.text = doc['dasd'];  For SHowing Data on UPdate
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);

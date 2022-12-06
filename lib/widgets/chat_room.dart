@@ -1,15 +1,15 @@
-import 'dart:io';
 
+
+import 'dart:io';
+import 'package:file_picker/file_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:practo_hospital/widgets/app-theme.dart';
 import 'package:practo_hospital/widgets/videochat/meeting_screen.dart';
 import 'package:uuid/uuid.dart';
-import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 
 class ChatRoom extends StatefulWidget {
   String hospitalName;
@@ -34,6 +34,7 @@ class _ChatRoomState extends State<ChatRoom> {
   TextEditingController controller = TextEditingController();
   final ImagePicker _picker = ImagePicker();
   File? imageUrl;
+  PlatformFile? pickedFIle;
 
   @override
   void initState() {
@@ -168,38 +169,44 @@ class _ChatRoomState extends State<ChatRoom> {
                                                   top: 10,
                                                   bottom: 10),
                                               child: Align(
-                                                alignment:
-                                                    (ds.get("senderId") ==
-                                                            FirebaseAuth
-                                                                .instance
-                                                                .currentUser!
-                                                                .uid
-                                                        ? Alignment.bottomRight
-                                                        : Alignment.bottomLeft),
-                                                child: Container(
-                                                  height: MediaQuery.of(context)
-                                                          .size
-                                                          .height *
-                                                      0.2,
-                                                  width: MediaQuery.of(context)
-                                                          .size
-                                                          .width *
-                                                      0.4,
-                                                  decoration: BoxDecoration(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            20),
-                                                    image: DecorationImage(
-                                                        image: NetworkImage(
-                                                          ds.get("image"),
-                                                        ),
-                                                        fit: BoxFit.fill),
-                                                    // color: (ds.get("senderId") == firebaseAuth.currentUser!.uid?Colors.grey.shade200:Colors.blue[200]),
-                                                  ),
-                                                  // padding: EdgeInsets.all(16),
-                                                ),
-                                              ),
-                                            )
+                                                  alignment: (ds.get(
+                                                              "senderId") ==
+                                                          FirebaseAuth.instance
+                                                              .currentUser!.uid
+                                                      ? Alignment.bottomRight
+                                                      : Alignment.bottomLeft),
+                                                  child: Container(
+                                                    padding: EdgeInsets.all(16),
+                                                    height:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .height *
+                                                            0.2,
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width *
+                                                            0.4,
+                                                    decoration: BoxDecoration(
+                                                      image: DecorationImage(
+                                                          image: NetworkImage(
+                                                              "https://www.winzip.com/static/wz/images/learn/features/file-manager/file-manager.jpg"),
+                                                          fit: BoxFit.cover),
+                                                      color: (ds.get(
+                                                                  "senderId") ==
+                                                              FirebaseAuth
+                                                                  .instance
+                                                                  .currentUser!
+                                                                  .uid
+                                                          ? Colors.grey.shade200
+                                                          : Colors.blue[200]),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              20),
+                                                    ),
+
+                                                    //
+                                                  )))
                                           : Container();
                                 },
                               ),
@@ -315,9 +322,14 @@ class _ChatRoomState extends State<ChatRoom> {
   }
 
   void addImage() async {
-    final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+    final result = await FilePicker.platform.pickFiles();
+
+    if (result == null) return;
+    final path = result.files.last;
+
+    //  final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
     setState(() {
-      imageUrl = File(image!.path);
+      pickedFIle = path;
     });
     await uploadImageToFirebase().then((value) {
       var documentReference = FirebaseFirestore.instance
@@ -347,21 +359,16 @@ class _ChatRoomState extends State<ChatRoom> {
   }
 
   Future uploadImageToFirebase() async {
-    File? fileName = imageUrl;
     var uuid = Uuid();
-    firebase_storage.Reference firebaseStorageRef = firebase_storage
-        .FirebaseStorage.instance
-        .ref()
-        .child('messages/images+${uuid.v4()}');
-    firebase_storage.UploadTask uploadTask =
-        firebaseStorageRef.putFile(fileName!);
-    firebase_storage.TaskSnapshot taskSnapshot =
-        await uploadTask.whenComplete(() async {
-      print(fileName);
-      String img = await uploadTask.snapshot.ref.getDownloadURL();
-      setState(() {
-        imageLink = img;
-      });
-    });
+    final path = 'files/${pickedFIle!.name}';
+    final file = File(pickedFIle!.path!);
+    firebase_storage.Reference firebaseStorageRef =
+        firebase_storage.FirebaseStorage.instance.ref().child(path);
+    //.child('messages/images+${uuid.v4()}${file}');
+    firebase_storage.UploadTask uploadTask = firebaseStorageRef.putFile(file);
+
+    final snapshot = await uploadTask.whenComplete(() {});
+    final downloadlink = await snapshot.ref.getDownloadURL();
+    print(downloadlink);
   }
 }
