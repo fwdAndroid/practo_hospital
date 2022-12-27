@@ -1,5 +1,3 @@
-
-
 import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
@@ -8,7 +6,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:practo_hospital/widgets/app-theme.dart';
-import 'package:practo_hospital/widgets/videochat/meeting_screen.dart';
 import 'package:uuid/uuid.dart';
 
 class ChatRoom extends StatefulWidget {
@@ -91,8 +88,8 @@ class _ChatRoomState extends State<ChatRoom> {
               padding: const EdgeInsets.all(8.0),
               child: IconButton(
                 onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (builder) => MeetingScreen()));
+                  // Navigator.push(context,
+                  //     MaterialPageRoute(builder: (builder) => MeetingScreen()));
                 },
                 icon: Icon(
                   Icons.video_call,
