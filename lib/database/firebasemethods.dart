@@ -5,7 +5,7 @@ import 'package:practo_hospital/models/hospital_model.dart';
 import 'package:uuid/uuid.dart';
 
 class FirebaseMethods {
-   Future<String> updateuser({
+  Future<String> updateuser({
     required String email,
     required String pass,
     required String address,
@@ -38,19 +38,19 @@ class FirebaseMethods {
     }
     return res;
   }
+
   //Update Department
   Future<String> updateDepartment({
     required String departmentName,
     required String departmentSpecialization,
     required String departmentDescription,
-    required String uuid,
   }) async {
     String res = 'Some error occured';
     try {
       if (departmentDescription.isNotEmpty ||
           departmentName.isNotEmpty ||
-          departmentSpecialization.isNotEmpty 
-          ) {
+          departmentSpecialization.isNotEmpty) {
+        var uuid = Uuid().v1();
         // UserCredential cred = await FirebaseAuth.instance
         //     .createUserWithEmailAndPassword(email: email, password: pass);
 
@@ -62,8 +62,10 @@ class FirebaseMethods {
             departmentName: departmentName,
             specilization: departmentSpecialization);
         await FirebaseFirestore.instance
-            .collection('hispitals')
-            .doc(FirebaseAuth.instance.currentUser!.uid)
+            .collection('departments')
+            .doc("departmentsdetails")
+            .collection(FirebaseAuth.instance.currentUser!.uid)
+            .doc(uuid)
             .update(userModel.toJson());
         res = 'sucess';
       }
@@ -72,6 +74,7 @@ class FirebaseMethods {
     }
     return res;
   }
+
   //Register User with Add User
   Future<String> signUpUser({
     required String email,
@@ -146,11 +149,47 @@ class FirebaseMethods {
         String uuid = Uuid().v1();
 
         Department_Model serviceModel = Department_Model(
-          description: description,
-          specilization: specialization,
-          uid: uid,
-          departmentName: departmentName,
-        );
+            description: description,
+            specilization: specialization,
+            uid: uid,
+            departmentName: departmentName,
+            uuid: uuid);
+
+        FirebaseFirestore.instance
+            .collection('departments')
+            .doc("departmentsdetails")
+            .collection(FirebaseAuth.instance.currentUser!.uid)
+            .doc(uuid)
+            .set(
+              serviceModel.toJson(),
+            );
+        res = 'Success';
+      }
+    } catch (error) {
+      res = error.toString();
+    }
+    return res;
+  }
+
+  //Edit Department
+  //Add Department
+  Future<String> editDepartment(
+      {required String description,
+      required String specialization,
+      required String uid,
+      required String departmentName}) async {
+    String res =
+        'Update all the fields data to store it because doctor information will be updated in sequences ';
+    try {
+      if (description.isNotEmpty || specialization.isNotEmpty) {
+        String uuid = Uuid().v1();
+
+        Department_Model serviceModel = Department_Model(
+            description: description,
+            specilization: specialization,
+            uid: uid,
+            departmentName: departmentName,
+            uuid: uuid);
 
         FirebaseFirestore.instance
             .collection('departments')

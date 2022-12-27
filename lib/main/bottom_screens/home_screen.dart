@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:practo_hospital/main/department/add_department.dart';
+import 'package:practo_hospital/main/pages/edit_department.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -87,6 +88,21 @@ class _HomeState extends State<Home> {
                                               children: [
                                                 IconButton(
                                                     onPressed: () async {
+                                                      Navigator.push(
+                                                          context,
+                                                          MaterialPageRoute(
+                                                              builder: (builder) =>
+                                                                  Edit_Department(
+                                                                    uuid: documentSnapshot[
+                                                                        'uuid'],
+                                                                  )));
+                                                    },
+                                                    icon: Icon(
+                                                      Icons.edit,
+                                                      color: Colors.yellow,
+                                                    )),
+                                                IconButton(
+                                                    onPressed: () async {
                                                       await FirebaseFirestore
                                                           .instance
                                                           .collection(
@@ -106,20 +122,6 @@ class _HomeState extends State<Home> {
                                                       Icons.delete,
                                                       color: Colors.red,
                                                     )),
-                                                // IconButton(
-                                                //     onPressed: () {
-                                                //       Navigator.push(
-                                                //           context,
-                                                //           MaterialPageRoute(
-                                                //               builder: (builder) =>
-                                                //                   Edit_Department(
-                                                //                       uuid: documentSnapshot[
-                                                //                           'uuid'])));
-                                                //     },
-                                                //     icon: Icon(
-                                                //       Icons.edit,
-                                                //       color: Colors.yellow,
-                                                //     )),
                                               ],
                                             ),
                                           ),

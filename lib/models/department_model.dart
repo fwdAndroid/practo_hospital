@@ -3,12 +3,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class Department_Model {
   String uid;
   String departmentName;
-  String? uuid;
+  String uuid;
   String description;
   String specilization;
 
   Department_Model({
-    this.uuid,
+   required this.uuid,
     required this.uid,
     required this.departmentName,
     required this.description,
