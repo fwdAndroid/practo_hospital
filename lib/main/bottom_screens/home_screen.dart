@@ -16,103 +16,129 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (builder) => AddDepartment()));
-        },
-        child: Icon(Icons.local_fire_department),
-      ),
-      body: SingleChildScrollView(
-        child: FirebaseAuth.instance.currentUser != null
-            ? StreamBuilder(
-                stream: FirebaseFirestore.instance
-                    .collection('departments')
-                    .doc("departmentsdetails")
-                    .collection(FirebaseAuth.instance.currentUser!.uid)
-                    // .where(
-                    //   'status',
-                    //   isNotEqualTo: 'pending',
-                    // )
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (builder) => AddDepartment()));
+          },
+          child: Icon(Icons.local_fire_department),
+        ),
+        body: SingleChildScrollView(
+            child: FirebaseAuth.instance.currentUser != null
+                ? StreamBuilder(
+                    stream: FirebaseFirestore.instance
+                        .collection('departments')
+                        .doc("departmentsdetails")
+                        .collection(FirebaseAuth.instance.currentUser!.uid)
+                        // .where(
+                        //   'status',
+                        //   isNotEqualTo: 'pending',
+                        // )
 
-                    .where('uid',
-                        isEqualTo: FirebaseAuth.instance.currentUser!.uid)
-                    .snapshots(),
-                builder: (context,
-                    AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>>
-                        snapshot) {
-                  if (snapshot.hasError) {
-                    return const Center(
-                      child: Text('Something went wrong'),
-                    );
-                  }
-                  if (snapshot.hasData) {
-                    return Column(
-                      children: [
-                        // Padding(
-                        //   padding: const EdgeInsets.all(8.0),
-                        //   child: Text(
-                        //     '29 Decemeber 2002',
-                        //     textAlign: TextAlign.start,
-                        //     style:
-                        //         TextStyle(color: Colors.black, fontWeight: FontWeight.w900),
-                        //   ),
-                        // ),
-                        Container(
-                          height: MediaQuery.of(context).size.height,
-                          child: ListView.builder(
-                              itemCount: snapshot.data!.docs.length,
-                              itemBuilder: (BuildContext context, int index) {
-                                final DocumentSnapshot documentSnapshot =
-                                    snapshot.data!.docs[index];
-                                return Column(
-                                  children: [
-                                    ListTile(
-                                      onTap: () {
-                                        // Navigator.push(
-                                        //   context,
-                                        //   MaterialPageRoute(
-                                        //     builder: (builder) =>
-                                        //         AppointCurrentDetail(),
-                                        //   ),
-                                        // );
-                                      },
-                                      title: Text(
-                                          documentSnapshot['departmentName']),
-                                      subtitle: Text(
-                                          documentSnapshot['specilization']),
-                                      trailing: IconButton(
-                                          onPressed: () async {
-                                            await FirebaseFirestore.instance
-                                                .collection('departments')
-                                                .doc("departmentsdetails")
-                                                .collection(FirebaseAuth
-                                                    .instance.currentUser!.uid)
-                                                .doc(documentSnapshot.id)
-                                                .delete();
+                        .where('uid',
+                            isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+                        .snapshots(),
+                    builder: (context,
+                        AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>>
+                            snapshot) {
+                      if (snapshot.hasError) {
+                        return const Center(
+                          child: Text('Something went wrong'),
+                        );
+                      }
+                      if (snapshot.hasData) {
+                        return Column(
+                          children: [
+                            // Padding(
+                            //   padding: const EdgeInsets.all(8.0),
+                            //   child: Text(
+                            //     '29 Decemeber 2002',
+                            //     textAlign: TextAlign.start,
+                            //     style:
+                            //         TextStyle(color: Colors.black, fontWeight: FontWeight.w900),
+                            //   ),
+                            // ),
+                            Container(
+                              height: MediaQuery.of(context).size.height,
+                              child: ListView.builder(
+                                  itemCount: snapshot.data!.docs.length,
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
+                                    final DocumentSnapshot documentSnapshot =
+                                        snapshot.data!.docs[index];
+                                    return Column(
+                                      children: [
+                                        ListTile(
+                                          onTap: () {
+                                            // Navigator.push(
+                                            //   context,
+                                            //   MaterialPageRoute(
+                                            //     builder: (builder) =>
+                                            //         AppointCurrentDetail(),
+                                            //   ),
+                                            // );
                                           },
-                                          icon: Icon(
-                                            Icons.delete,
-                                            color: Colors.red,
-                                          )),
-                                    ),
-                                    Divider()
-                                  ],
-                                );
-                              }),
-                        ),
-                      ],
-                    );
-                  } else {
-                    return const Center(
-                      child: CircularProgressIndicator.adaptive(),
-                    );
-                  }
-                })
-            : const Center(
-                child: Text('No Appointment Pending'),
-              ),
-      ),
-    );
+                                          title: Text(documentSnapshot[
+                                              'departmentName']),
+                                          subtitle: Text(documentSnapshot[
+                                              'specilization']),
+                                          trailing: FittedBox(
+                                            child: Row(
+                                              children: [
+                                                IconButton(
+                                                    onPressed: () async {
+                                                      await FirebaseFirestore
+                                                          .instance
+                                                          .collection(
+                                                              'departments')
+                                                          .doc(
+                                                              "departmentsdetails")
+                                                          .collection(
+                                                              FirebaseAuth
+                                                                  .instance
+                                                                  .currentUser!
+                                                                  .uid)
+                                                          .doc(documentSnapshot
+                                                              .id)
+                                                          .delete();
+                                                    },
+                                                    icon: Icon(
+                                                      Icons.delete,
+                                                      color: Colors.red,
+                                                    )),
+                                                // IconButton(
+                                                //     onPressed: () {
+                                                //       Navigator.push(
+                                                //           context,
+                                                //           MaterialPageRoute(
+                                                //               builder: (builder) =>
+                                                //                   Edit_Department(
+                                                //                       uuid: documentSnapshot[
+                                                //                           'uuid'])));
+                                                //     },
+                                                //     icon: Icon(
+                                                //       Icons.edit,
+                                                //       color: Colors.yellow,
+                                                //     )),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                        Divider()
+                                      ],
+                                    );
+                                  }),
+                            ),
+                          ],
+                        );
+                      } else {
+                        return const Center(
+                          child: CircularProgressIndicator.adaptive(),
+                        );
+                      }
+                    })
+                : const Center(
+                    child: Text('No Appointment Pending'),
+                  )));
   }
 }

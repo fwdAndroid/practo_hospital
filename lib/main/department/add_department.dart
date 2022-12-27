@@ -23,6 +23,8 @@ class _AddDepartmentState extends State<AddDepartment> {
   TextEditingController specializationController = TextEditingController();
   TextEditingController departmentName = TextEditingController();
 
+  var uuid;
+
   @override
   Widget build(BuildContext context) {
     final inputBorder =
@@ -238,11 +240,11 @@ class _AddDepartmentState extends State<AddDepartment> {
       _isLoading = true;
     });
     String rse = await FirebaseMethods().departmentAdd(
-      description: descController.text,
-      specialization: specializationController.text,
-      departmentName: departmentName.text,
-      uid: FirebaseAuth.instance.currentUser!.uid,
-    );
+        description: descController.text,
+        specialization: specializationController.text,
+        departmentName: departmentName.text,
+        uid: FirebaseAuth.instance.currentUser!.uid,
+        );
 
     print(rse);
     setState(() {

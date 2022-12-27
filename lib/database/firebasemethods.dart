@@ -38,6 +38,40 @@ class FirebaseMethods {
     }
     return res;
   }
+  //Update Department
+  Future<String> updateDepartment({
+    required String departmentName,
+    required String departmentSpecialization,
+    required String departmentDescription,
+    required String uuid,
+  }) async {
+    String res = 'Some error occured';
+    try {
+      if (departmentDescription.isNotEmpty ||
+          departmentName.isNotEmpty ||
+          departmentSpecialization.isNotEmpty 
+          ) {
+        // UserCredential cred = await FirebaseAuth.instance
+        //     .createUserWithEmailAndPassword(email: email, password: pass);
+
+        //Add User to the database with modal
+        Department_Model userModel = Department_Model(
+            uuid: uuid,
+            uid: FirebaseAuth.instance.currentUser!.uid,
+            description: departmentDescription,
+            departmentName: departmentName,
+            specilization: departmentSpecialization);
+        await FirebaseFirestore.instance
+            .collection('hispitals')
+            .doc(FirebaseAuth.instance.currentUser!.uid)
+            .update(userModel.toJson());
+        res = 'sucess';
+      }
+    } catch (e) {
+      res = e.toString();
+    }
+    return res;
+  }
   //Register User with Add User
   Future<String> signUpUser({
     required String email,
