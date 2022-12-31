@@ -83,7 +83,7 @@ class _AllChatsState extends State<AllChats> {
                               Navigator.push(context,
                                   CupertinoPageRoute(builder: (context) {
                                 return ChatRoom(
-                                  hospitalName: documentSnapshot['hospitalName'],
+                                 hospitalName: documentSnapshot['hospitalName'],
                                   userid: documentSnapshot['id'],
                                   hispitalid: documentSnapshot['hospitalid'],
                                   paitientname: documentSnapshot['name'],

@@ -2,7 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:practo_hospital/main/mainScreen.dart';
-import 'package:practo_hospital/separapade.dart';
 import 'package:practo_hospital/splash.dart';
 
 Future<void> main() async {
@@ -37,7 +36,7 @@ class MyApp extends StatelessWidget {
       ),
       home: FirebaseAuth.instance.currentUser == null
           ? const Splash()
-          : UploadFiles(),
+          : MainScreen(),
     );
   }
 }
