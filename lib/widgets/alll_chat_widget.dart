@@ -5,7 +5,6 @@ import 'package:practo_hospital/widgets/app-theme.dart';
 import 'package:practo_hospital/widgets/chat_room.dart';
 import 'package:flutter/material.dart';
 
-
 class AllChats extends StatefulWidget {
   final userid;
   final hospitald;
@@ -83,9 +82,10 @@ class _AllChatsState extends State<AllChats> {
                               Navigator.push(context,
                                   CupertinoPageRoute(builder: (context) {
                                 return ChatRoom(
-                                 hospitalName: documentSnapshot['hospitalName'],
-                                  userid: documentSnapshot['id'],
-                                  hispitalid: documentSnapshot['hospitalid'],
+                                  hospitalName:
+                                      documentSnapshot['hospitalName'],
+                                  paitientid: documentSnapshot['id'],
+                                  hospitalId: documentSnapshot['hospitalid'],
                                   paitientname: documentSnapshot['name'],
                                   // user : widget.doctorid,
                                 );
