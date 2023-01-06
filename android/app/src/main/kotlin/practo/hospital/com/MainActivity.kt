@@ -1,4 +1,4 @@
-package com.example.practo_hospital
+package practo.hospital.com
 
 import io.flutter.embedding.android.FlutterActivity
 

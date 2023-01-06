@@ -10,17 +10,14 @@ import 'package:practo_hospital/main/bottom_screens/appontment.dart';
 import 'package:practo_hospital/main/bottom_screens/chat_page.dart';
 import 'package:practo_hospital/main/bottom_screens/home_screen.dart';
 import 'package:practo_hospital/main/bottom_screens/setting.dart';
+import 'package:practo_hospital/main/chat_appointments/chat_appointment.dart';
 
 const webScreenSize = 600;
 
 List<Widget> homeScreenItems = [
   Home(),
   HospitalAppointments(),
-  ChatPage(
-    hospitald: "",
-    userid: "",
-    name: "",
-  ),
+  ChatAppointment(),
   Setting(),
 
   // Profile()

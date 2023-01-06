@@ -1,20 +1,22 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:practo_hospital/main/chat_appointments/past_chat_room.dart';
 import 'package:practo_hospital/widgets/app-theme.dart';
 import 'package:practo_hospital/widgets/chat_room.dart';
 import 'package:flutter/material.dart';
 
-class AllChats extends StatefulWidget {
+class AllPastChat extends StatefulWidget {
   final userid;
   final hospitald;
   final name;
-  AllChats({required this.hospitald, required this.userid, required this.name});
+  AllPastChat(
+      {required this.hospitald, required this.userid, required this.name});
   @override
-  State<AllChats> createState() => _AllChatsState();
+  State<AllPastChat> createState() => _AllPastChatState();
 }
 
-class _AllChatsState extends State<AllChats> {
+class _AllPastChatState extends State<AllPastChat> {
   @override
   void initState() {
     // TODO: implement initState
@@ -36,7 +38,7 @@ class _AllChatsState extends State<AllChats> {
                     .collection("hospital_appointment")
                     .doc("details")
                     .collection("records")
-                    .where("status", isEqualTo: "start")
+                    .where("status", isEqualTo: "complete")
                     .where("hospitalid",
                         isEqualTo: FirebaseAuth.instance.currentUser!.uid)
                     .snapshots(includeMetadataChanges: true),
@@ -61,7 +63,7 @@ class _AllChatsState extends State<AllChats> {
                             onTap: () {
                               Navigator.push(context,
                                   CupertinoPageRoute(builder: (context) {
-                                return ChatRoom(
+                                return PastChatRoom(
                                   hospitalName:
                                       documentSnapshot['hospitalName'],
                                   paitientid: documentSnapshot['id'],

@@ -27,7 +27,7 @@ apply plugin: 'kotlin-android'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
 android {
-    compileSdkVersion flutter.compileSdkVersion
+    compileSdkVersion 33
     ndkVersion flutter.ndkVersion
 
     compileOptions {
@@ -45,7 +45,7 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId "com.example.practo_hospital"
+        applicationId "practo.hospital.com"
         multiDexEnabled true
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-build-configuration.
@@ -63,7 +63,7 @@ android {
             minifyEnabled true
             shrinkResources true
 
-            // useProguard true <-- removed this
+            // useProguard true <-- removed this`
             proguardFiles(
                     getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }

@@ -10,6 +10,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:practo_hospital/database/firebasemethods.dart';
 import 'package:practo_hospital/main/mainScreen.dart';
 import 'package:practo_hospital/widgets/utils.dart';
+import 'package:uuid/uuid.dart';
 
 class Edit_Department extends StatefulWidget {
   final uuid;
@@ -39,6 +40,7 @@ class _Edit_DepartmentState extends State<Edit_Department> {
 
   @override
   Widget build(BuildContext context) {
+    print(widget.uuid);
     final inputBorder =
         OutlineInputBorder(borderSide: Divider.createBorderSide(context));
     return Scaffold(
@@ -72,7 +74,8 @@ class _Edit_DepartmentState extends State<Edit_Department> {
                 }
                 var document = snapshot.data;
                 _descriptionController.text = document['description'];
-                _departmentSpecialIzationController.text = document['specilization'];
+                _departmentSpecialIzationController.text =
+                    document['specilization'];
                 _nameController.text = document['departmentName'];
 
                 return Column(
@@ -244,7 +247,6 @@ class _Edit_DepartmentState extends State<Edit_Department> {
                                   fontStyle: FontStyle.normal),
                             ),
                           )),
-                      
                       SizedBox(
                         height: 5,
                       ),
@@ -280,22 +282,28 @@ class _Edit_DepartmentState extends State<Edit_Department> {
     setState(() {
       _isLoading = true;
     });
-    String rse = await FirebaseMethods().updateDepartment(
-        departmentDescription: _descriptionController.text,
-        departmentSpecialization: _departmentSpecialIzationController.text,
-        departmentName: _nameController.text,
-        );
 
-    print(rse);
+    FirebaseFirestore.instance
+        .collection('departments')
+        .doc("departmentsdetails")
+        .collection(FirebaseAuth.instance.currentUser!.uid)
+        .doc(widget.uuid)
+        .update({
+      "specilization": _departmentSpecialIzationController.text,
+      "departmentName": _nameController.text,
+      "description": _descriptionController.text
+    });
+
+    // print(res);
     setState(() {
       _isLoading = false;
     });
-    if (rse == 'success') {
+    if ("Complete" == 'success') {
       Navigator.push(
           context, MaterialPageRoute(builder: (builder) => MainScreen()));
-      showSnakBar(rse, context);
+      showSnakBar("Complete", context);
     } else {
-      showSnakBar(rse, context);
+      showSnakBar("No Update", context);
     }
   }
 }

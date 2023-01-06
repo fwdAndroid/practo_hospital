@@ -4,8 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:practo_hospital/details/view_detail.dart';
-// import 'package:practo_doctor/bottompages/chats/screens/chat_page.dart';
-// import 'package:practo_doctor/view_detail/view_detail.dart';
 import 'package:practo_hospital/main/bottom_screens/chat_page.dart';
 import 'package:uuid/uuid.dart';
 
@@ -19,7 +17,6 @@ class StatusAppointment extends StatefulWidget {
 }
 
 class _StatusAppointmentState extends State<StatusAppointment> {
-  var doctorID;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,7 +24,7 @@ class _StatusAppointmentState extends State<StatusAppointment> {
         child: FirebaseAuth.instance.currentUser != null
             ? StreamBuilder(
                 stream: FirebaseFirestore.instance
-                    .collection('appointments')
+                    .collection('hospital_appointment')
                     .doc("details")
                     .collection("records")
                     .where(
@@ -90,7 +87,6 @@ class _StatusAppointmentState extends State<StatusAppointment> {
                                                                           'date'],
                                                                       name: documentSnapshot[
                                                                           'name'],
-                                                                    
                                                                       problem:
                                                                           documentSnapshot[
                                                                               'problem'],
@@ -105,13 +101,15 @@ class _StatusAppointmentState extends State<StatusAppointment> {
                                                   await FirebaseFirestore
                                                       .instance
                                                       .collection(
-                                                          'appointments')
+                                                          'hospital_appointment')
                                                       .doc("details")
                                                       .collection("records")
                                                       .doc(documentSnapshot.id)
                                                       .update({
                                                     "status": "start"
                                                   }).whenComplete(() {
+                                                    print(
+                                                        documentSnapshot["id"]);
                                                     Navigator.push(
                                                         context,
                                                         MaterialPageRoute(
@@ -124,7 +122,7 @@ class _StatusAppointmentState extends State<StatusAppointment> {
                                                                       userid: documentSnapshot[
                                                                           'id'],
                                                                       name: documentSnapshot[
-                                                                          'hospitalName'],
+                                                                          'name'],
                                                                     )));
                                                   });
                                                 },
