@@ -357,7 +357,7 @@ class _PastChatRoomState extends State<PastChatRoom> {
           documentReference,
           {
             "senderId": FirebaseAuth.instance.currentUser!.uid,
-            "receiverId": widget.hospitalId,
+            "receiverId": widget.paitientid,
             "time": DateTime.now(),
             'timestamp': DateTime.now().millisecondsSinceEpoch.toString(),
             'content': content,
@@ -408,7 +408,7 @@ class _PastChatRoomState extends State<PastChatRoom> {
         documentReference,
         {
           "senderId": FirebaseAuth.instance.currentUser!.uid,
-          "reciverId": widget.hospitalId,
+          "receiverId": widget.paitientid,
           // "content": messageController.text,
           "time": DateTime.now(),
           'image': "",
@@ -478,7 +478,7 @@ class _PastChatRoomState extends State<PastChatRoom> {
           documentReference,
           {
             "senderId": FirebaseAuth.instance.currentUser!.uid,
-            "reciverId": widget.hospitalId,
+            "receiverId": widget.paitientid,
             // "content": messageController.text,
             "time": DateTime.now(),
             'image': imageLink,
